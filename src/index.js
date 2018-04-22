@@ -1,8 +1,6 @@
-var responseCount, currentQuestion, responses, quizData, question, j,
-$question, $resetButton, isQuestionAnswered
-
-responseCount = 0
-currentQuestion = 0
+let responses
+let responseCount = 0
+let currentQuestion = 0
 const options = {
   url: 'data/quiz.json?' + Date.now()
 }
@@ -11,7 +9,7 @@ $.ajax({
   url: options.url
 }).done(function(data) {
   const questions = data.questions
-
+  let quizData;
   // Load data from past reponses
   try {
     quizData = JSON.parse(localStorage.getItem('quiz'))
@@ -41,7 +39,7 @@ $.ajax({
 
   // For each question of the json,
   for (let i = 0; i < data.questions.length; i++) {
-    question = data.questions[i]
+    const question = data.questions[i]
 
     if (question.input === undefined) {
       question.input = {
@@ -113,7 +111,7 @@ $.ajax({
           '</div>'
     }
 
-    $question = $('<div id="question-' + i + '" class="ui card" style="width: 100%;">' +
+    const $question = $('<div id="question-' + i + '" class="ui card" style="width: 100%;">' +
       '<div class="content">' +
       '<div class="header">' + question.problem + '</div>' +
       '</div>' +
@@ -148,7 +146,7 @@ $.ajax({
   }
 
   // Add a reset button that will redirect to quiz start
-  $resetButton = $('<button class="ui button negative">Reset</button>')
+  const $resetButton = $('<button class="ui button negative">Reset</button>')
   $resetButton.on('click', function() {
     localStorage.removeItem('quiz')
     location.reload();
@@ -206,7 +204,7 @@ $.ajax({
       .css('width', (responseCount / questions.length * 100) + '%')
 
     // Check if question had a valid answer
-    isQuestionAnswered = true
+    let isQuestionAnswered = true
     if (!responses[currentQuestion]) {
       isQuestionAnswered = false
     }
