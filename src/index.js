@@ -1,17 +1,16 @@
-var responseCount, currentQuestion, options,
-questions, responses, quizData, question, j,
+var responseCount, currentQuestion, responses, quizData, question, j,
 $question, $resetButton, isQuestionAnswered
 
 responseCount = 0
 currentQuestion = 0
-options = {
+const options = {
   url: 'data/quiz.json?' + Date.now()
 }
 
 $.ajax({
   url: options.url
 }).done(function(data) {
-  questions = data.questions
+  const questions = data.questions
 
   // Load data from past reponses
   try {
@@ -41,7 +40,7 @@ $.ajax({
     .append('<form id="quiz-form" class="ui form"></form>')
 
   // For each question of the json,
-  for (var i = 0; i < data.questions.length; i++) {
+  for (let i = 0; i < data.questions.length; i++) {
     question = data.questions[i]
 
     if (question.input === undefined) {
@@ -57,7 +56,7 @@ $.ajax({
       case 'checkbox':
       case 'radio':
         var input = '<div class="inline fields">'
-        for (j = 0; j < question.input.options.length; j++) {
+        for (let j = 0; j < question.input.options.length; j++) {
           var option = question.input.options[j]
           var type = question.input.type
 
@@ -80,7 +79,7 @@ $.ajax({
         // Set of inputs (composed response)
       case 'inputs':
         var input = '<table>'
-        for (j = 0; j < question.input.options.length; j++) {
+        for (let j = 0; j < question.input.options.length; j++) {
           var option = question.input.options[j]
           var type = 'checkbox'
 
@@ -185,7 +184,7 @@ $.ajax({
 
     // Set the current responses counter
     var responseCount = 0
-    for (i = 0; i < responses.length; i++) {
+    for (let i = 0; i < responses.length; i++) {
       question = questions[i]
       switch (question.input.type) {
         case 'checkbox':
@@ -212,7 +211,7 @@ $.ajax({
       isQuestionAnswered = false
     }
     if (!!responses[currentQuestion] && !!responses[currentQuestion].length) {
-      for (j = 0; j < responses[currentQuestion].length; j++) {
+      for (let j = 0; j < responses[currentQuestion].length; j++) {
         if (!responses[currentQuestion][j]) {
           isQuestionAnswered = false
         }
